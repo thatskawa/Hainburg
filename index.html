@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #e8e4dc;
+    font-family: 'Source Sans 3', sans-serif;
+    color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .article {
+    width: 100%;
+    max-width: 480px;
+    background: #fafaf7;
+    min-height: 100vh;
+  }
+
+  /* Masthead */
+  .masthead {
+    background: #1a1a1a;
+    padding: 10px 18px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #c8001a;
+  }
+
+  .paper-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  .paper-name span {
+    color: #c8001a;
+  }
+
+  .masthead-right {
+    text-align: right;
+  }
+
+  .masthead-date {
+    font-size: 9px;
+    color: #aaa;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+
+  .masthead-edition {
+    font-size: 9px;
+    color: #c8001a;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Breaking banner */
+  .breaking {
+    background: #c8001a;
+    padding: 6px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .breaking-label {
+    background: white;
+    color: #c8001a;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .breaking-text {
+    font-size: 11px;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Category tag */
+  .category-bar {
+    padding: 10px 18px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #e0ddd6;
+    padding-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  .category {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #c8001a;
+  }
+
+  .category-sep {
+    color: #ccc;
+    font-size: 10px;
+  }
+
+  .category-sub {
+    font-size: 10px;
+    color: #888;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Hero image -->  */
+  .hero {
+    position: relative;
+    height: 210px;
+    background: linear-gradient(180deg, #7ec8e3 0%, #b8dca8 55%, #7a9f58 100%);
+    overflow: hidden;
+    margin: 14px 18px 0;
+    border: 1px solid #ddd;
+  }
+
+  .hero-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.55);
+    padding: 6px 10px;
+    font-size: 10px;
+    color: #ddd;
+    font-style: italic;
+    font-family: 'Lora', serif;
+  }
+
+  /* Drone animations */
+  @keyframes floatA {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-7px); }
+  }
+  @keyframes floatB {
+    0%,100% { transform: translateY(0px) rotate(-1deg); }
+    50% { transform: translateY(-5px) rotate(1deg); }
+  }
+  @keyframes floatC {
+    0%,100% { transform: translateY(0px) rotate(1deg); }
+    50% { transform: translateY(-9px) rotate(-1deg); }
+  }
+
+  .d1 { position:absolute; top:28px; left:50%; margin-left:-44px; animation: floatA 3s ease-in-out infinite; }
+  .d2 { position:absolute; top:50px; right:32px; animation: floatB 2.6s ease-in-out -1s infinite; }
+  .d3 { position:absolute; top:42px; left:24px; animation: floatC 3.4s ease-in-out -2s infinite; opacity:0.8; }
+
+  /* Article content */
+  .article-body {
+    padding: 16px 18px 30px;
+  }
+
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.18;
+    color: #111;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .deck {
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    color: #444;
+    line-height: 1.55;
+    margin-bottom: 14px;
+    font-style: italic;
+    border-left: 3px solid #c8001a;
+    padding-left: 12px;
+  }
+
+  .byline-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid #e0ddd6;
+    border-bottom: 1px solid #e0ddd6;
+    margin-bottom: 16px;
+  }
+
+  .byline {
+    font-size: 11px;
+    color: #555;
+  }
+
+  .byline strong {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  .read-time {
+    font-size: 10px;
+    color: #999;
+    letter-spacing: 0.04em;
+  }
+
+  .body-text {
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #222;
+    margin-bottom: 14px;
+  }
+
+  .body-text:first-letter {
+    font-size: 42px;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    float: left;
+    line-height: 0.85;
+    margin: 4px 7px 0 0;
+    color: #c8001a;
+  }
+
+  .pull-quote {
+    border-top: 2px solid #1a1a1a;
+    border-bottom: 2px solid #1a1a1a;
+    padding: 14px 0;
+    margin: 20px 0;
+  }
+
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.35;
+  }
+
+  .pull-quote cite {
+    display: block;
+    font-size: 11px;
+    color: #c8001a;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 7px;
+  }
+
+  .body-text-normal {
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #222;
+    margin-bottom: 14px;
+  }
+
+  .fact-box {
+    background: #f0ede6;
+    border-top: 2px solid #1a1a1a;
+    padding: 14px 14px;
+    margin: 20px 0;
+  }
+
+  .fact-box-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #c8001a;
+    margin-bottom: 10px;
+  }
+
+  .fact-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 7px;
+    align-items: flex-start;
+  }
+
+  .fact-dot {
+    width: 6px;
+    height: 6px;
+    background: #c8001a;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .fact-text {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.5;
+  }
+
+  /* Related -->  */
+  .related {
+    border-top: 2px solid #1a1a1a;
+    padding-top: 14px;
+    margin-top: 24px;
+  }
+
+  .related-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 12px;
+  }
+
+  .related-item {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e8e4dc;
+    margin-bottom: 12px;
+  }
+
+  .related-img {
+    width: 60px;
+    height: 48px;
+    background: #e0ddd6;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .related-text {
+    font-family: 'Lora', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.35;
+  }
+
+  .related-meta {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    color: #999;
+    margin-top: 4px;
+  }
+
+  /* Footer -->  */
+  .footer {
+    background: #1a1a1a;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 900;
+    color: white;
+  }
+
+  .footer-name span { color: #c8001a; }
+
+  .footer-copy {
+    font-size: 9px;
+    color: #666;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  .red-bar { height: 4px; background: #c8001a; }
+</style>
+</head>
+<body>
+<div class="article">
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="paper-name">Main<span>Post</span></div>
+    <div class="masthead-right">
+      <div class="masthead-edition">Ausgabe Hainburg</div>
+      <div class="masthead-date">Mittwoch, 1. April 2026</div>
+    </div>
+  </div>
+
+  <!-- Breaking -->
+  <div class="breaking">
+    <div class="breaking-label">Exklusiv</div>
+    <div class="breaking-text">Neues Infrastrukturprojekt für den Main-Kinzig-Kreis enthüllt</div>
+  </div>
+
+  <!-- Category -->
+  <div class="category-bar">
+    <span class="category">Regional</span>
+    <span class="category-sep">›</span>
+    <span class="category-sub">Wirtschaft & Infrastruktur</span>
+  </div>
+
+  <!-- Hero image -->
+  <div class="hero">
+    <!-- Sky -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 444 210">
+      <!-- Dashed flight paths -->
+      <path d="M90 75 Q 180 130 222 170" stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-dasharray="6 5" opacity="0.25"/>
+      <path d="M355 60 Q 290 120 240 165" stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-dasharray="6 5" opacity="0.25"/>
+      <!-- Landscape -->
+      <rect x="0" y="125" width="444" height="85" fill="#7a9f58"/>
+      <rect x="0" y="125" width="148" height="50" fill="#8ab06a"/>
+      <rect x="148" y="132" width="148" height="43" fill="#6a9050"/>
+      <rect x="296" y="128" width="148" height="47" fill="#7aaa5a"/>
+      <!-- Field lines -->
+      <line x1="74" y1="125" x2="74" y2="210" stroke="#5a8040" stroke-width="1" opacity="0.4"/>
+      <line x1="222" y1="132" x2="222" y2="210" stroke="#5a8040" stroke-width="1" opacity="0.4"/>
+      <line x1="370" y1="128" x2="370" y2="210" stroke="#5a8040" stroke-width="1" opacity="0.4"/>
+      <!-- Trees -->
+      <ellipse cx="28" cy="123" rx="20" ry="14" fill="#4a7a38"/>
+      <ellipse cx="54" cy="119" rx="17" ry="12" fill="#5a8a48"/>
+      <ellipse cx="410" cy="122" rx="20" ry="14" fill="#5a8a48"/>
+      <ellipse cx="434" cy="119" rx="16" ry="11" fill="#4a7a38"/>
+      <!-- Warehouse -->
+      <rect x="177" y="90" width="90" height="38" fill="#d0c8b8"/>
+      <polygon points="172,90 272,90 269,77 175,77" fill="#bfb8a8"/>
+      <rect x="188" y="97" width="14" height="11" fill="#999"/>
+      <rect x="210" y="97" width="14" height="11" fill="#999"/>
+      <rect x="232" y="97" width="14" height="11" fill="#999"/>
+      <!-- Buildings -->
+      <rect x="85" y="100" width="38" height="28" fill="#d8d0c0"/>
+      <polygon points="83,100 125,100 123,88 85,88" fill="#c8c0b0"/>
+      <rect x="320" y="98" width="42" height="30" fill="#d8d0c0"/>
+      <polygon points="318,98 364,98 362,86 320,86" fill="#c8c0b0"/>
+      <!-- Road -->
+      <polygon points="200,125 244,125 264,210 178,210" fill="#b0a090" opacity="0.55"/>
+    </svg>
+
+    <!-- Drones -->
+    <svg class="d1" width="84" height="63" viewBox="0 0 120 90">
+      <line x1="60" y1="45" x2="15" y2="20" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <line x1="60" y1="45" x2="105" y2="20" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <line x1="60" y1="45" x2="15" y2="70" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <line x1="60" y1="45" x2="105" y2="70" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="15" cy="18" rx="14" ry="4.5" fill="#111" opacity="0.8"/>
+      <ellipse cx="105" cy="18" rx="14" ry="4.5" fill="#111" opacity="0.8"/>
+      <ellipse cx="15" cy="72" rx="14" ry="4.5" fill="#111" opacity="0.8"/>
+      <ellipse cx="105" cy="72" rx="14" ry="4.5" fill="#111" opacity="0.8"/>
+      <circle cx="15" cy="18" r="3.5" fill="#555"/>
+      <circle cx="105" cy="18" r="3.5" fill="#555"/>
+      <circle cx="15" cy="72" r="3.5" fill="#555"/>
+      <circle cx="105" cy="72" r="3.5" fill="#555"/>
+      <rect x="44" y="33" width="32" height="24" rx="4" fill="#1a1a1a"/>
+      <rect x="47" y="36" width="26" height="8" rx="2" fill="#333"/>
+      <circle cx="60" cy="52" r="5" fill="#222"/>
+      <circle cx="60" cy="52" r="3" fill="#888"/>
+      <rect x="50" y="57" width="20" height="13" rx="2" fill="#d4a830"/>
+      <line x1="60" y1="57" x2="60" y2="70" stroke="#a08020" stroke-width="1.5"/>
+      <line x1="50" y1="63" x2="70" y2="63" stroke="#a08020" stroke-width="1.5"/>
+      <circle cx="15" cy="18" r="2" fill="#00ff88" opacity="0.9"/>
+      <circle cx="105" cy="18" r="2" fill="#ff3333" opacity="0.9"/>
+    </svg>
+
+    <svg class="d2" width="52" height="39" viewBox="0 0 120 90">
+      <line x1="60" y1="45" x2="15" y2="20" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <line x1="60" y1="45" x2="105" y2="20" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <line x1="60" y1="45" x2="15" y2="70" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <line x1="60" y1="45" x2="105" y2="70" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="15" cy="18" rx="14" ry="4.5" fill="#222" opacity="0.7"/>
+      <ellipse cx="105" cy="18" rx="14" ry="4.5" fill="#222" opacity="0.7"/>
+      <ellipse cx="15" cy="72" rx="14" ry="4.5" fill="#222" opacity="0.7"/>
+      <ellipse cx="105" cy="72" rx="14" ry="4.5" fill="#222" opacity="0.7"/>
+      <circle cx="15" cy="18" r="3.5" fill="#555"/>
+      <circle cx="105" cy="18" r="3.5" fill="#555"/>
+      <circle cx="15" cy="72" r="3.5" fill="#555"/>
+      <circle cx="105" cy="72" r="3.5" fill="#555"/>
+      <rect x="44" y="33" width="32" height="24" rx="4" fill="#1a1a1a"/>
+      <circle cx="60" cy="52" r="5" fill="#222"/>
+      <circle cx="60" cy="52" r="3" fill="#888"/>
+      <circle cx="15" cy="18" r="2" fill="#ff3333" opacity="0.9"/>
+    </svg>
+
+    <svg class="d3" width="42" height="32" viewBox="0 0 120 90">
+      <line x1="60" y1="45" x2="15" y2="20" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <line x1="60" y1="45" x2="105" y2="20" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <line x1="60" y1="45" x2="15" y2="70" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <line x1="60" y1="45" x2="105" y2="70" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="15" cy="18" rx="14" ry="4.5" fill="#222" opacity="0.6"/>
+      <ellipse cx="105" cy="18" rx="14" ry="4.5" fill="#222" opacity="0.6"/>
+      <ellipse cx="15" cy="72" rx="14" ry="4.5" fill="#222" opacity="0.6"/>
+      <ellipse cx="105" cy="72" rx="14" ry="4.5" fill="#222" opacity="0.6"/>
+      <circle cx="15" cy="18" r="3.5" fill="#555"/>
+      <circle cx="105" cy="18" r="3.5" fill="#555"/>
+      <circle cx="15" cy="72" r="3.5" fill="#555"/>
+      <circle cx="105" cy="72" r="3.5" fill="#555"/>
+      <rect x="44" y="33" width="32" height="24" rx="4" fill="#2a2a2a"/>
+    </svg>
+
+    <div class="hero-caption">Visualisierung: Drohnen über dem geplanten Logistikstandort zwischen Hainstadt und Klein-Krotzenburg. © MainPost / Archiv</div>
+  </div>
+
+  <!-- Article body -->
+  <div class="article-body">
+
+    <h1 class="headline">Hainburg wird Standort für erstes regionales Drohnen-Logistikzentrum im Rhein-Main-Gebiet</h1>
+
+    <div class="deck">Das Pilotprojekt soll die Paketzustellung und medizinische Versorgung im Main-Kinzig-Kreis grundlegend verändern – und Hainburg in eine Vorreiterrolle bringen.</div>
+
+    <div class="byline-row">
+      <div class="byline">Von <strong>Thomas Berger</strong>, Lokalredaktion Hainburg</div>
+      <div class="read-time">🕐 2 Min. Lesezeit</div>
+    </div>
+
+    <p class="body-text">Hainburg soll als Pilotstandort für ein regionales Drohnen-Logistikzentrum dienen. Das bestätigten Kreisvertreter gegenüber der MainPost am Dienstag. Geplant ist ein Zentrum zur deutlich schnelleren Versorgung der Region mit Paketen und medizinischen Gütern.</p>
+
+    <p class="body-text-normal">Der Standort soll sich zwischen den Ortsteilen Hainstadt und Klein-Krotzenburg befinden. In den kommenden Wochen werden vorbereitende Maßnahmen durchgeführt – darunter Vermessungsarbeiten und erste Bauvorbereitungen. Anwohner in der Nähe des geplanten Geländes müssen laut Informationen der Redaktion mit leichten Beeinträchtigungen rechnen.</p>
+
+    <div class="pull-quote">
+      <p>„Hainburg hat das Potenzial, Vorreiter moderner Lieferlogistik im gesamten Rhein-Main-Gebiet zu werden."</p>
+      <cite>Quelle aus dem Kreisumfeld, Name der Redaktion bekannt</cite>
+    </div>
+
+    <p class="body-text-normal">Langfristig sollen von dem Zentrum aus Drohnen autonom Pakete und medizinische Güter an umliegende Gemeinden liefern – deutlich schneller als herkömmliche Lieferdienste. Offizielle Stellungnahmen der Gemeindeverwaltung stehen noch aus. Weitere Informationen sollen in Kürze folgen.</p>
+
+    <div class="fact-box">
+      <div class="fact-box-title">Das Wichtigste im Überblick</div>
+      <div class="fact-row"><div class="fact-dot"></div><div class="fact-text"><strong>Standort:</strong> Zwischen Hainstadt und Klein-Krotzenburg (63512)</div></div>
+      <div class="fact-row"><div class="fact-dot"></div><div class="fact-text"><strong>Zweck:</strong> Pakete & medizinische Güter per Drohne</div></div>
+      <div class="fact-row"><div class="fact-dot"></div><div class="fact-text"><strong>Nächste Schritte:</strong> Vermessungsarbeiten & Baubeginn in Kürze</div></div>
+      <div class="fact-row"><div class="fact-dot"></div><div class="fact-text"><strong>Ziel:</strong> Vorreiterrolle im Rhein-Main-Gebiet</div></div>
+    </div>
+
+    <!-- Related -->
+    <div class="related">
+      <div class="related-title">Weitere Artikel</div>
+      <div class="related-item">
+        <div class="related-img">🚚</div>
+        <div>
+          <div class="related-text">MKK plant Ausbau der Ladeinfrastruktur für Elektrofahrzeuge</div>
+          <div class="related-meta">28. März 2026 · Wirtschaft</div>
+        </div>
+      </div>
+      <div class="related-item">
+        <div class="related-img">🏗️</div>
+        <div>
+          <div class="related-text">Neue Gewerbeflächen im Kreis: Wo entstehen die nächsten Ansiedlungen?</div>
+          <div class="related-meta">15. März 2026 · Regional</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-name">Main<span>Post</span></div>
+    <div class="footer-copy">© 2026 MainPost Hainburg<br>Alle Rechte vorbehalten</div>
+  </div>
+  <div class="red-bar"></div>
+
+</div>
+</body>
+</html>
