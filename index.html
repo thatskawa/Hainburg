@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Barlow:wght@400;500;600;700&display=swap');
+
+  :root {
+    --ink: #111010;
+    --paper: #fffef9;
+    --accent: #e8200c;
+    --green: #1a8a3a;
+    --mid: #555;
+    --rule: #d0cdc4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 430px;
+    background: var(--paper);
+    min-height: 100vh;
+  }
+
+  /* ── Browser bar ── */
+  .browser-bar {
+    background: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+    padding: 7px 14px;
+  }
+  .url-bar {
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: #444;
+    font-family: 'Barlow', sans-serif;
+    text-align: center;
+  }
+
+  /* ── Masthead ── */
+  .masthead {
+    background: var(--ink);
+  }
+  .masthead-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px 8px;
+  }
+  .paper-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 34px;
+    color: white;
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+  .paper-logo .dot { color: var(--accent); }
+  .masthead-meta { text-align: right; }
+  .meta-region {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .meta-date { font-size: 9px; color: #888; margin-top: 1px; }
+  .accent-stripe { height: 3px; background: var(--accent); }
+
+  /* ── BIG REVEAL BANNER ── */
+  .reveal-banner {
+    background: var(--green);
+    padding: 22px 20px 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reveal-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 12px,
+      rgba(255,255,255,0.04) 12px,
+      rgba(255,255,255,0.04) 24px
+    );
+  }
+
+  .reveal-emoji {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 6px;
+    animation: bounce 0.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-6px); }
+  }
+
+  .reveal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: white;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.3);
+  }
+
+  .reveal-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.88);
+    font-weight: 600;
+    margin-top: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── Correction box ── */
+  .correction {
+    background: #fff8e1;
+    border-left: 4px solid #f5a623;
+    margin: 18px 16px 0;
+    padding: 13px 14px;
+  }
+
+  .correction-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #c07800;
+    margin-bottom: 6px;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  .correction-text {
+    font-family: 'Merriweather', serif;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #3a2a00;
+  }
+
+  /* ── Article body ── */
+  .article {
+    padding: 16px 16px 28px;
+  }
+
+  .headline {
+    font-family: 'Merriweather', serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 10px;
+    text-decoration: line-through;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    opacity: 0.55;
+  }
+
+  .strike-label {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    margin-bottom: 10px;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  .body {
+    font-family: 'Merriweather', serif;
+    font-size: 14px;
+    line-height: 1.78;
+    color: #1e1e1e;
+  }
+
+  .body p { margin-bottom: 12px; }
+
+  .body p:first-child::first-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    float: left;
+    line-height: 0.82;
+    margin: 5px 6px 0 0;
+    color: var(--green);
+  }
+
+  .facts-real {
+    background: #f0f7f0;
+    border-left: 3px solid var(--green);
+    padding: 12px 14px;
+    margin: 16px 0 4px;
+  }
+
+  .facts-title {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  .facts-real ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .facts-real li {
+    font-size: 13px;
+    font-family: 'Barlow', sans-serif;
+    color: #1a3a1a;
+    line-height: 1.45;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .facts-real li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .byline-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 14px;
+  }
+  .byline-name { font-size: 11px; font-weight: 600; color: var(--ink); }
+  .byline-sub { font-size: 10px; color: var(--mid); margin-top: 1px; }
+
+  /* ── Share nudge ── */
+  .share-box {
+    background: var(--ink);
+    color: white;
+    padding: 16px;
+    margin: 18px 0 0;
+    text-align: center;
+  }
+
+  .share-box p {
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0.85;
+    font-family: 'Barlow', sans-serif;
+    margin: 0;
+  }
+
+  .share-box strong {
+    font-size: 15px;
+    display: block;
+    margin-bottom: 4px;
+    opacity: 1;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    background: var(--ink);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #333;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: white;
+    letter-spacing: 0.06em;
+  }
+  .footer-logo .dot { color: var(--accent); }
+  .footer-copy { font-size: 9px; color: #666; text-align: right; line-height: 1.6; }
+  .green-base { height: 4px; background: var(--green); }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- Browser bar -->
+  <div class="browser-bar">
+    <div class="url-bar">rhein-main-kurier.de</div>
+  </div>
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="masthead-inner">
+      <div class="paper-logo">Rhein-Main<span class="dot">·</span>Kurier</div>
+      <div class="masthead-meta">
+        <div class="meta-region">Ausgabe Hainburg</div>
+        <div class="meta-date">Mi., 1. April 2026</div>
+      </div>
+    </div>
+  </div>
+  <div class="accent-stripe"></div>
+
+  <!-- REVEAL BANNER -->
+  <div class="reveal-banner">
+    <span class="reveal-emoji">😄</span>
+    <div class="reveal-title">Apriiil!</div>
+    <div class="reveal-sub">Ihr seid reingefallen – herzlichen Glückwunsch!</div>
+  </div>
+
+  <!-- Correction notice -->
+  <div class="correction">
+    <div class="correction-label">⚠ Redaktionelle Richtigstellung</div>
+    <div class="correction-text">Der heutige Artikel über ein Drohnen-Logistikzentrum in Hainburg war ein Aprilscherz. Den „Rhein-Main·Kurier" gibt es nicht – und ein solches Projekt ist nicht geplant. Wir bitten alle Betroffenen um Entschuldigung. 😂</div>
+  </div>
+
+  <!-- Article (struck through headline) -->
+  <div class="article">
+
+    <div class="strike-label">Fiktiver Artikel vom 1. April</div>
+    <h1 class="headline">Hainburg wird Standort für Drohnen-Logistikzentrum im Rhein-Main-Gebiet</h1>
+
+    <div class="byline-strip">
+      <div>
+        <div class="byline-name">Stefan Kaufmann</div>
+        <div class="byline-sub">Lokalredaktion Hainburg · RMK (fiktiv)</div>
+      </div>
+    </div>
+
+    <div class="body">
+      <p>Der Artikel, den ihr heute Morgen gesehen habt, war komplett erfunden. Weder existiert der Rhein-Main·Kurier als echte Zeitung, noch ist ein Drohnen-Logistikzentrum zwischen Hainstadt und Klein-Krotzenburg in Planung.</p>
+
+      <p>Alles – Journalist, Zitat, Faktenbox, Redaktion – war frei erfunden. Wer heute Vermessungsarbeiten oder Baufahrzeuge am Ortsrand gesehen hat: Das war Zufall. 😄</p>
+
+      <div class="facts-real">
+        <div class="facts-title">Was wirklich stimmt</div>
+        <ul>
+          <li>Den „Rhein-Main·Kurier" gibt es nicht</li>
+          <li>Kein Drohnen-Hub in Hainburg geplant</li>
+          <li>Stefan Kaufmann ist eine Erfindung</li>
+          <li>Hainburg bleibt wie es ist – und das ist gut so 😊</li>
+        </ul>
+      </div>
+
+      <div class="share-box">
+        <strong>🤣 Hat's euch erwischt?</strong>
+        <p>Schreibt in die Kommentare – wer ist drauf reingefallen?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-logo">Rhein-Main<span class="dot">·</span>Kurier</div>
+    <div class="footer-copy">© 2026 Aprilscherz<br>Ausgabe Hainburg</div>
+  </div>
+  <div class="green-base"></div>
+
+</div>
+</body>
+</html>
